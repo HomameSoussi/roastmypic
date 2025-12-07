@@ -1,6 +1,10 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+
+@theme {
+  --color-pink-600: #db2777;
+  --color-purple-600: #9333ea;
+  --color-indigo-700: #4338ca;
+}
 
 :root {
   --foreground-rgb: 255, 255, 255;
