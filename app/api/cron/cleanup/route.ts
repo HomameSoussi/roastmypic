@@ -5,14 +5,8 @@ import { cleanupExpiredStories } from '@/lib/db';
 // GET - Cleanup expired stories (called by Vercel Cron)
 export async function GET(request: NextRequest) {
   try {
-    // Verify the request is from Vercel Cron
-    const authHeader = request.headers.get('authorization');
-    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
-    }
+    // Note: This endpoint can be called manually or via external cron service
+    // For production, consider adding authentication
 
     const deletedCount = await cleanupExpiredStories();
 
