@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { voteOnRoast, generateFingerprint } from '@/lib/db';
 
-export const runtime = 'edge';
-
 // POST - Vote on a roast (toggle vote)
 export async function POST(request: NextRequest) {
   try {

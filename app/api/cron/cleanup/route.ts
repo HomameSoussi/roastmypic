@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cleanupExpiredStories } from '@/lib/db';
 
-export const runtime = 'edge';
 
 // GET - Cleanup expired stories (called by Vercel Cron)
 export async function GET(request: NextRequest) {

@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { viewStory, generateFingerprint } from '@/lib/db';
 
-export const runtime = 'edge';
 
 // POST - Mark story as viewed
 export async function POST(

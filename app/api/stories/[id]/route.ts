@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getStoryById, viewStory, reactToStory, generateFingerprint } from '@/lib/db';
 
-export const runtime = 'edge';
 
 // GET - Get a specific story
 export async function GET(

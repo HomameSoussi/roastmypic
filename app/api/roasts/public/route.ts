@@ -1,8 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createPublicRoast, getLeaderboard, generateFingerprint } from '@/lib/db';
 
-export const runtime = 'edge';
-
 // POST - Submit a roast to public leaderboard
 export async function POST(request: NextRequest) {
   try {

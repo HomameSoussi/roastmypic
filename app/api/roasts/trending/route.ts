@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getTrendingRoasts, generateFingerprint } from '@/lib/db';
 
-export const runtime = 'edge';
 
 // GET - Get trending roasts (last 24 hours)
 export async function GET(request: NextRequest) {

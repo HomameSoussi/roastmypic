@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { reactToStory, generateFingerprint } from '@/lib/db';
 
-export const runtime = 'edge';
 
 // POST - React to a story
 export async function POST(
