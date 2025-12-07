@@ -24,6 +24,18 @@ export interface Translations {
   footer: string;
   shareText: string;
   errorUpload: string;
+  makePublic: string;
+  makePublicHint: string;
+  leaderboard: string;
+  leaderboardSubtitle: string;
+  stories: string;
+  storiesSubtitle: string;
+  noRoastsYet: string;
+  beTheFirst: string;
+  createRoast: string;
+  noStories: string;
+  shareYourStory: string;
+  createStory: string;
 }
 
 export const translations: Record<Language, Translations> = {
@@ -45,7 +57,19 @@ export const translations: Record<Language, Translations> = {
     totalRoasts: "roasts generated worldwide",
     footer: "Made with 🔥 by RoastMaster9000",
     shareText: "I just got roasted by AI! 🔥 Try it yourself at",
-    errorUpload: "Please upload an image first"
+    errorUpload: "Please upload an image first",
+    makePublic: "Make this roast public",
+    makePublicHint: "Share with the community and compete on the leaderboard!",
+    leaderboard: "Leaderboard",
+    leaderboardSubtitle: "Vote for the funniest roasts!",
+    stories: "Stories",
+    storiesSubtitle: "24-hour roast stories from the community",
+    noRoastsYet: "No roasts yet!",
+    beTheFirst: "Be the first to share your roast with the world!",
+    createRoast: "Create a Roast",
+    noStories: "No stories yet!",
+    shareYourStory: "Share your roast story with the community!",
+    createStory: "Create a Story"
   },
   fr: {
     title: "RoastMyPic",
@@ -65,7 +89,19 @@ export const translations: Record<Language, Translations> = {
     totalRoasts: "roasts générés dans le monde",
     footer: "Fait avec 🔥 par RoastMaster9000",
     shareText: "Je viens de me faire griller par l'IA! 🔥 Essayez-le à",
-    errorUpload: "Veuillez d'abord télécharger une image"
+    errorUpload: "Veuillez d'abord télécharger une image",
+    makePublic: "Rendre ce roast public",
+    makePublicHint: "Partagez avec la communauté et participez au classement!",
+    leaderboard: "Classement",
+    leaderboardSubtitle: "Votez pour les roasts les plus drôles!",
+    stories: "Stories",
+    storiesSubtitle: "Stories de roast de 24 heures de la communauté",
+    noRoastsYet: "Pas encore de roasts!",
+    beTheFirst: "Soyez le premier à partager votre roast avec le monde!",
+    createRoast: "Créer un Roast",
+    noStories: "Pas encore de stories!",
+    shareYourStory: "Partagez votre story de roast avec la communauté!",
+    createStory: "Créer une Story"
   },
   ar: {
     title: "RoastMyPic",
@@ -85,7 +121,19 @@ export const translations: Record<Language, Translations> = {
     totalRoasts: "روست تولد فالعالم كامل",
     footer: "صنع ب 🔥 من طرف RoastMaster9000",
     shareText: "أنا تشعلت من الذكاء الاصطناعي! 🔥 جربها نتا فـ",
-    errorUpload: "خصك تحمّل صورة أولاً"
+    errorUpload: "خصك تحمّل صورة أولاً",
+    makePublic: "اجعل هذا الروست عام",
+    makePublicHint: "شارك مع المجتمع وتنافس في الترتيب!",
+    leaderboard: "الترتيب",
+    leaderboardSubtitle: "صوّت على أفضل الروستات!",
+    stories: "القصص",
+    storiesSubtitle: "قصص روست 24 ساعة من المجتمع",
+    noRoastsYet: "ما كاينش روست بعد!",
+    beTheFirst: "كون نتا الأول لي يشارك الروست ديالو مع العالم!",
+    createRoast: "اصنع روست",
+    noStories: "ما كاينش قصص بعد!",
+    shareYourStory: "شارك قصة الروست ديالك مع المجتمع!",
+    createStory: "اصنع قصة"
   }
 };
 

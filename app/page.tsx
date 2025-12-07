@@ -198,6 +198,22 @@ export default function Home() {
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-6 max-w-lg">
+        {/* Navigation */}
+        <nav className="flex justify-center gap-4 mb-6 animate-fade-in">
+          <a
+            href="/leaderboard"
+            className="bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 hover:bg-white/20 transition-all font-semibold"
+          >
+            🏆 {t.leaderboard}
+          </a>
+          <a
+            href="/stories"
+            className="bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 hover:bg-white/20 transition-all font-semibold"
+          >
+            📸 {t.stories}
+          </a>
+        </nav>
+
         {/* Header */}
         <header className="text-center mb-6 animate-fade-in">
           <h1 className="text-5xl md:text-6xl font-black mb-3 bg-gradient-to-r from-white via-pink-200 to-white bg-clip-text text-transparent drop-shadow-lg animate-slide-down">
@@ -321,6 +337,41 @@ export default function Home() {
                     <h3 className="text-xl font-bold text-white mb-2">{t.yourRoast}</h3>
                     <p className="text-white text-lg leading-relaxed">{roast}</p>
                   </div>
+                </div>
+                
+                {/* Make Public Options */}
+                <div className="mb-4 space-y-3">
+                  <label className="flex items-start gap-3 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      id="makePublic"
+                      className="mt-1 w-5 h-5 rounded border-2 border-white/50 bg-white/10 checked:bg-pink-500 focus:ring-2 focus:ring-pink-500 cursor-pointer"
+                    />
+                    <div className="flex-1">
+                      <div className="font-semibold text-white group-hover:text-pink-200 transition-colors">
+                        🏆 {t.makePublic}
+                      </div>
+                      <div className="text-sm text-white/70">
+                        {t.makePublicHint}
+                      </div>
+                    </div>
+                  </label>
+                  
+                  <label className="flex items-start gap-3 cursor-pointer group">
+                    <input
+                      type="checkbox"
+                      id="makeStory"
+                      className="mt-1 w-5 h-5 rounded border-2 border-white/50 bg-white/10 checked:bg-purple-500 focus:ring-2 focus:ring-purple-500 cursor-pointer"
+                    />
+                    <div className="flex-1">
+                      <div className="font-semibold text-white group-hover:text-purple-200 transition-colors">
+                        📸 Share as 24h Story
+                      </div>
+                      <div className="text-sm text-white/70">
+                        Disappears after 24 hours
+                      </div>
+                    </div>
+                  </label>
                 </div>
                 
                 {/* Action Buttons */}
