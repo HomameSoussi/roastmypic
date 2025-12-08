@@ -15,6 +15,9 @@ export default function Home() {
   const [copied, setCopied] = useState<boolean>(false);
   const [totalRoasts, setTotalRoasts] = useState<number>(12847);
   const [roastHistory, setRoastHistory] = useState<Array<{ roast: string; style: string; timestamp: number }>>([]);
+  const [makePublic, setMakePublic] = useState<boolean>(false);
+  const [makeStory, setMakeStory] = useState<boolean>(false);
+  const [submitting, setSubmitting] = useState<boolean>(false);
 
   const t = translations[language];
 
@@ -186,6 +189,70 @@ export default function Home() {
     setImageFile(null);
     setRoast(null);
     setError(null);
+    setMakePublic(false);
+    setMakeStory(false);
+  };
+
+  const handleMakePublicChange = async (checked: boolean) => {
+    setMakePublic(checked);
+    
+    if (checked && roast && selectedImage) {
+      setSubmitting(true);
+      try {
+        const response = await fetch("/api/roasts/public", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            roast_text: roast,
+            style: style,
+            image_url: selectedImage // Using base64 for now
+          })
+        });
+        
+        if (response.ok) {
+          alert("✅ Roast added to leaderboard! Others can now vote on it.");
+        } else {
+          throw new Error("Failed to add to leaderboard");
+        }
+      } catch (err) {
+        console.error("Error making roast public:", err);
+        alert("❌ Failed to add to leaderboard. Please try again.");
+        setMakePublic(false);
+      } finally {
+        setSubmitting(false);
+      }
+    }
+  };
+
+  const handleMakeStoryChange = async (checked: boolean) => {
+    setMakeStory(checked);
+    
+    if (checked && roast && selectedImage) {
+      setSubmitting(true);
+      try {
+        const response = await fetch("/api/stories", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            roast_text: roast,
+            style: style,
+            image_url: selectedImage // Using base64 for now
+          })
+        });
+        
+        if (response.ok) {
+          alert("✅ Story created! It will disappear in 24 hours.");
+        } else {
+          throw new Error("Failed to create story");
+        }
+      } catch (err) {
+        console.error("Error creating story:", err);
+        alert("❌ Failed to create story. Please try again.");
+        setMakeStory(false);
+      } finally {
+        setSubmitting(false);
+      }
+    }
   };
 
   return (
@@ -345,7 +412,10 @@ export default function Home() {
                     <input
                       type="checkbox"
                       id="makePublic"
-                      className="mt-1 w-5 h-5 rounded border-2 border-white/50 bg-white/10 checked:bg-pink-500 focus:ring-2 focus:ring-pink-500 cursor-pointer"
+                      checked={makePublic}
+                      onChange={(e) => handleMakePublicChange(e.target.checked)}
+                      disabled={submitting}
+                      className="mt-1 w-5 h-5 rounded border-2 border-white/50 bg-white/10 checked:bg-pink-500 focus:ring-2 focus:ring-pink-500 cursor-pointer disabled:opacity-50"
                     />
                     <div className="flex-1">
                       <div className="font-semibold text-white group-hover:text-pink-200 transition-colors">
@@ -361,7 +431,10 @@ export default function Home() {
                     <input
                       type="checkbox"
                       id="makeStory"
-                      className="mt-1 w-5 h-5 rounded border-2 border-white/50 bg-white/10 checked:bg-purple-500 focus:ring-2 focus:ring-purple-500 cursor-pointer"
+                      checked={makeStory}
+                      onChange={(e) => handleMakeStoryChange(e.target.checked)}
+                      disabled={submitting}
+                      className="mt-1 w-5 h-5 rounded border-2 border-white/50 bg-white/10 checked:bg-purple-500 focus:ring-2 focus:ring-purple-500 cursor-pointer disabled:opacity-50"
                     />
                     <div className="flex-1">
                       <div className="font-semibold text-white group-hover:text-purple-200 transition-colors">
