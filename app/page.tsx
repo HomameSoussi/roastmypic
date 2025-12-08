@@ -203,9 +203,10 @@ export default function Home() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            roast_text: roast,
-            style: style,
-            image_url: selectedImage // Using base64 for now
+            roastText: roast,
+            roastStyle: style,
+            imageUrl: selectedImage,
+            language: language
           })
         });
         
@@ -234,9 +235,10 @@ export default function Home() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            roast_text: roast,
-            style: style,
-            image_url: selectedImage // Using base64 for now
+            roastText: roast,
+            roastStyle: style,
+            imageUrl: selectedImage,
+            language: language
           })
         });
         
