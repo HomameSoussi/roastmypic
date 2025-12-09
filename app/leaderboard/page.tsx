@@ -6,13 +6,13 @@ import { translations, type Language } from "@/lib/translations";
 
 interface PublicRoast {
   id: string;
-  imageUrl: string;
-  roastText: string;
-  roastStyle: string;
+  image_url: string;
+  roast_text: string;
+  roast_style: string;
   language: string;
   votes: number;
-  createdAt: string;
-  hasVoted?: boolean;
+  created_at: string;
+  has_voted?: boolean;
 }
 
 export default function Leaderboard() {
@@ -174,7 +174,7 @@ export default function Leaderboard() {
                 {/* Image */}
                 <div className="relative w-full h-48 bg-gray-800/50 rounded-xl mb-4 overflow-hidden">
                   <img
-                    src={roast.imageUrl}
+                    src={roast.image_url}
                     alt="Roasted"
                     className="w-full h-full object-cover"
                   />
@@ -182,25 +182,25 @@ export default function Leaderboard() {
 
                 {/* Roast Text */}
                 <p className="text-white text-lg mb-4 line-clamp-3">
-                  "{roast.roastText}"
+                  "{roast.roast_text}"
                 </p>
 
                 {/* Style Badge */}
                 <div className="inline-block bg-purple-500/30 px-3 py-1 rounded-full text-white text-sm mb-4">
-                  {roast.roastStyle.replace("_", " ")}
+                  {roast.roast_style.replace("_", " ")}
                 </div>
 
                 {/* Vote Button */}
                 <button
                   onClick={() => handleVote(roast.id)}
-                  disabled={roast.hasVoted}
+                  disabled={roast.has_voted}
                   className={`w-full py-3 rounded-xl font-semibold transition-all ${
-                    roast.hasVoted
+                    roast.has_voted
                       ? "bg-gray-500/50 text-white/50 cursor-not-allowed"
                       : "bg-gradient-to-r from-pink-500 to-purple-600 text-white hover:scale-105"
                   }`}
                 >
-                  {roast.hasVoted ? "✓ Voted" : "🔥 Vote"} ({roast.votes})
+                  {roast.has_voted ? "✓ Voted" : "🔥 Vote"} ({roast.votes})
                 </button>
               </div>
             ))}

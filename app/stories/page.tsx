@@ -6,14 +6,14 @@ import { translations, type Language } from "@/lib/translations";
 
 interface Story {
   id: string;
-  imageUrl: string;
-  roastText: string;
-  roastStyle: string;
+  image_url: string;
+  roast_text: string;
+  roast_style: string;
   username: string | null;
   views: number;
-  createdAt: string;
-  expiresAt: string;
-  reactionCount: number;
+  created_at: string;
+  expires_at: string;
+  reaction_count: number;
 }
 
 export default function Stories() {
@@ -179,14 +179,14 @@ export default function Stories() {
                 {/* Story Image */}
                 <div className="relative w-full h-64 bg-gray-800/50">
                   <img
-                    src={story.imageUrl}
+                    src={story.image_url}
                     alt="Story"
                     className="w-full h-full object-cover"
                   />
                   
                   {/* Time Remaining Overlay */}
                   <div className="absolute top-2 right-2 bg-black/70 px-3 py-1 rounded-full text-white text-xs">
-                    ⏱️ {getTimeRemaining(story.expiresAt)}
+                    ⏱️ {getTimeRemaining(story.expires_at)}
                   </div>
                   
                   {/* Username Overlay */}
@@ -200,13 +200,13 @@ export default function Stories() {
                 {/* Story Info */}
                 <div className="p-4">
                   <p className="text-white text-sm mb-3 line-clamp-2">
-                    "{story.roastText}"
+                    "{story.roast_text}"
                   </p>
                   
                   {/* Stats */}
                   <div className="flex items-center justify-between text-white/70 text-xs">
                     <span>👁️ {story.views} views</span>
-                    <span>🔥 {story.reactionCount} reactions</span>
+                    <span>🔥 {story.reaction_count} reactions</span>
                   </div>
                 </div>
               </div>
