@@ -236,7 +236,7 @@ export default function Stories() {
             {/* Story Image */}
             <div className="relative w-full h-96 bg-gray-900">
               <img
-                src={selectedStory.imageUrl}
+                src={selectedStory.image_url}
                 alt="Story"
                 className="w-full h-full object-contain"
               />
@@ -245,7 +245,7 @@ export default function Stories() {
             {/* Story Content */}
             <div className="p-6">
               <p className="text-white text-xl mb-4">
-                "{selectedStory.roastText}"
+                "{selectedStory.roast_text}"
               </p>
               
               {/* Reactions */}
@@ -264,8 +264,8 @@ export default function Stories() {
               {/* Stats */}
               <div className="flex items-center gap-4 text-white/70">
                 <span>👁️ {selectedStory.views} views</span>
-                <span>🔥 {selectedStory.reactionCount} reactions</span>
-                <span>⏱️ {getTimeRemaining(selectedStory.expiresAt)}</span>
+                <span>🔥 {selectedStory.reaction_count} reactions</span>
+                <span>⏱️ {getTimeRemaining(selectedStory.expires_at)}</span>
               </div>
             </div>
           </div>
