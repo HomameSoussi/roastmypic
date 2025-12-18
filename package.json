@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:migrate": "pnpm dlx tsx scripts/run-migration.ts"
   },
   "dependencies": {
     "@vercel/postgres": "^0.10.0",

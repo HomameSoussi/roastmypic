@@ -1,13 +1,10 @@
-'use client';
+"use client";
 
 import { useState, ChangeEvent, FormEvent, useEffect } from "react";
 import Image from "next/image";
 import { translations, roastStyles, languages, type Language } from "@/lib/translations";
-import { useSettings, getSetting } from "@/hooks/useSettings";
 
 export default function Home() {
-  const { settings, loading: settingsLoading } = useSettings();
-  
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [style, setStyle] = useState<string>("clean_funny");
@@ -24,32 +21,13 @@ export default function Home() {
 
   const t = translations[language];
 
-  // Get dynamic settings with fallbacks
-  const headline = getSetting(settings, 'landing_page_headline', { text: t.title })?.text || t.title;
-  const subheadline = getSetting(settings, 'landing_page_subheadline', { text: t.subtitle })?.text || t.subtitle;
-  const ctaButton = getSetting(settings, 'landing_page_cta_button', { text: t.roastButton })?.text || t.roastButton;
-  const announcementBanner = getSetting(settings, 'announcement_banner', null);
-  const primaryColor = getSetting(settings, 'primary_color', { hex: '#F472B6' })?.hex || '#F472B6';
-  const bgGradientStart = getSetting(settings, 'background_gradient_start', { hex: '#1D243A' })?.hex || '#1D243A';
-  const bgGradientEnd = getSetting(settings, 'background_gradient_end', { hex: '#0F172A' })?.hex || '#0F172A';
-  const enableLeaderboard = getSetting(settings, 'enable_leaderboard', { enabled: true })?.enabled !== false;
-  const enableStories = getSetting(settings, 'enable_stories', { enabled: true })?.enabled !== false;
-  const enableVoting = getSetting(settings, 'enable_voting', { enabled: true })?.enabled !== false;
-  const dynamicRoastStyles = getSetting(settings, 'roast_styles', roastStyles);
-  const defaultMakePublic = getSetting(settings, 'default_make_public', { enabled: false })?.enabled || false;
-  const defaultShareStory = getSetting(settings, 'default_share_story', { enabled: false })?.enabled || false;
-
   useEffect(() => {
     const stored = localStorage.getItem("roastCount");
     if (stored) setTotalRoasts(parseInt(stored));
     
     const history = localStorage.getItem("roastHistory");
     if (history) setRoastHistory(JSON.parse(history));
-    
-    // Set default checkbox states from settings
-    setMakePublic(defaultMakePublic);
-    setMakeStory(defaultShareStory);
-  }, [defaultMakePublic, defaultShareStory]);
+  }, []);
 
   const incrementRoastCount = () => {
     const newCount = totalRoasts + 1;
@@ -152,9 +130,9 @@ export default function Home() {
     if (!ctx) return;
 
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, primaryColor);
+    gradient.addColorStop(0, "#ff0080");
     gradient.addColorStop(0.5, "#7928ca");
-    gradient.addColorStop(1, primaryColor);
+    gradient.addColorStop(1, "#ff0080");
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
@@ -211,13 +189,11 @@ export default function Home() {
     setImageFile(null);
     setRoast(null);
     setError(null);
-    setMakePublic(defaultMakePublic);
-    setMakeStory(defaultShareStory);
+    setMakePublic(false);
+    setMakeStory(false);
   };
 
   const handleMakePublicChange = async (checked: boolean) => {
-    if (!enableVoting) return; // Don't allow if voting is disabled
-    
     setMakePublic(checked);
     
     if (checked && roast && selectedImage) {
@@ -250,8 +226,6 @@ export default function Home() {
   };
 
   const handleMakeStoryChange = async (checked: boolean) => {
-    if (!enableStories) return; // Don't allow if stories are disabled
-    
     setMakeStory(checked);
     
     if (checked && roast && selectedImage) {
@@ -283,78 +257,39 @@ export default function Home() {
     }
   };
 
-  // Get active roast styles from dynamic settings
-  const activeRoastStyles = Array.isArray(dynamicRoastStyles) 
-    ? dynamicRoastStyles.filter((s: any) => s.is_active !== false)
-    : roastStyles;
-
   return (
-    <div 
-      className="min-h-screen text-white relative overflow-hidden"
-      style={{
-        background: `linear-gradient(to bottom right, ${bgGradientStart}, ${bgGradientEnd})`
-      }}
-    >
-      {/* Announcement Banner */}
-      {announcementBanner && announcementBanner.text && (
-        <div 
-          className="w-full py-3 text-center font-semibold text-white"
-          style={{ backgroundColor: announcementBanner.color || primaryColor }}
-        >
-          {announcementBanner.link ? (
-            <a href={announcementBanner.link} className="hover:underline">
-              {announcementBanner.text}
-            </a>
-          ) : (
-            announcementBanner.text
-          )}
-        </div>
-      )}
-
+    <div className="min-h-screen bg-gradient-to-br from-pink-600 via-purple-600 to-indigo-700 text-white relative overflow-hidden">
       {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div 
-          className="absolute top-20 left-10 w-72 h-72 rounded-full blur-3xl animate-pulse"
-          style={{ backgroundColor: `${primaryColor}33` }}
-        ></div>
-        <div 
-          className="absolute bottom-20 right-10 w-96 h-96 rounded-full blur-3xl animate-pulse delay-1000"
-          style={{ backgroundColor: `${primaryColor}33` }}
-        ></div>
-        <div 
-          className="absolute top-1/2 left-1/2 w-80 h-80 rounded-full blur-3xl animate-pulse delay-2000"
-          style={{ backgroundColor: `${primaryColor}33` }}
-        ></div>
+        <div className="absolute top-20 left-10 w-72 h-72 bg-pink-500/20 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-purple-500/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-indigo-500/20 rounded-full blur-3xl animate-pulse delay-2000"></div>
       </div>
 
       <div className="relative z-10 container mx-auto px-4 py-6 max-w-lg">
         {/* Navigation */}
         <nav className="flex justify-center gap-4 mb-6 animate-fade-in">
-          {enableLeaderboard && (
-            <a
-              href="/leaderboard"
-              className="bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 hover:bg-white/20 transition-all font-semibold"
-            >
-              🏆 {t.leaderboard}
-            </a>
-          )}
-          {enableStories && (
-            <a
-              href="/stories"
-              className="bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 hover:bg-white/20 transition-all font-semibold"
-            >
-              📸 {t.stories}
-            </a>
-          )}
+          <a
+            href="/leaderboard"
+            className="bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 hover:bg-white/20 transition-all font-semibold"
+          >
+            🏆 {t.leaderboard}
+          </a>
+          <a
+            href="/stories"
+            className="bg-white/10 backdrop-blur-md px-6 py-2 rounded-full border border-white/20 hover:bg-white/20 transition-all font-semibold"
+          >
+            📸 {t.stories}
+          </a>
         </nav>
 
         {/* Header */}
         <header className="text-center mb-6 animate-fade-in">
           <h1 className="text-5xl md:text-6xl font-black mb-3 bg-gradient-to-r from-white via-pink-200 to-white bg-clip-text text-transparent drop-shadow-lg animate-slide-down">
-            {headline} 🔥
+            {t.title} 🔥
           </h1>
           <p className="text-white/90 text-lg md:text-xl font-medium mb-4 animate-slide-up">
-            {subheadline}
+            {t.subtitle}
           </p>
           
           {/* Language Selector - Compact Pills */}
@@ -365,10 +300,9 @@ export default function Home() {
                 onClick={() => setLanguage(lang.value)}
                 className={`px-4 py-2 rounded-full font-semibold transition-all transform hover:scale-110 ${
                   language === lang.value
-                    ? "bg-white shadow-lg scale-110"
+                    ? "bg-white text-purple-600 shadow-lg scale-110"
                     : "bg-white/20 text-white hover:bg-white/30 backdrop-blur-sm"
                 }`}
-                style={language === lang.value ? { color: primaryColor } : {}}
               >
                 {lang.flag}
               </button>
@@ -385,7 +319,7 @@ export default function Home() {
         {/* Main Card */}
         <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-6 border border-white/20 animate-scale-in">
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Image Upload */}
+            {/* Compact Image Upload */}
             <div className="relative">
               <label
                 htmlFor="image-upload"
@@ -422,123 +356,154 @@ export default function Home() {
 
             {/* Style Selector */}
             <div>
-              <label className="block text-sm font-semibold mb-2">{t.styleLabel}</label>
-              <div className="grid grid-cols-2 gap-2">
-                {activeRoastStyles.map((roastStyle: any) => {
-                  const styleKey = typeof roastStyle === 'string' ? roastStyle : roastStyle.name;
-                  const styleName = typeof roastStyle === 'string' 
-                    ? roastStyles.find(s => s.value === roastStyle)?.label || styleKey
-                    : roastStyle.name;
-                  const badgeColor = typeof roastStyle === 'object' && roastStyle.badge_color 
-                    ? roastStyle.badge_color 
-                    : primaryColor;
-                  
-                  return (
-                    <button
-                      key={styleKey}
-                      type="button"
-                      onClick={() => setStyle(styleKey)}
-                      className={`px-4 py-3 rounded-xl font-semibold transition-all transform hover:scale-105 ${
-                        style === styleKey
-                          ? "shadow-lg scale-105"
-                          : "bg-white/10 hover:bg-white/20"
-                      }`}
-                      style={
-                        style === styleKey
-                          ? { backgroundColor: badgeColor, color: 'white' }
-                          : {}
-                      }
-                    >
-                      {styleName}
-                    </button>
-                  );
-                })}
-              </div>
+              <label className="block text-sm font-semibold text-white/90 mb-2">
+                {t.chooseStyle}
+              </label>
+              <select
+                value={style}
+                onChange={(e) => setStyle(e.target.value)}
+                className="w-full px-4 py-3 bg-white/10 backdrop-blur-md border border-white/30 rounded-xl text-white font-medium focus:outline-none focus:ring-2 focus:ring-white/50 focus:border-white/50 transition-all"
+              >
+                {roastStyles.map((s) => (
+                  <option key={s.value} value={s.value} className="bg-purple-900 text-white">
+                    {s.label[language]}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Submit Button */}
             <button
               type="submit"
               disabled={!imageFile || loading}
-              className="w-full py-4 rounded-xl font-bold text-lg text-white transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
-              style={{ backgroundColor: primaryColor }}
+              className="w-full bg-gradient-to-r from-pink-500 via-red-500 to-yellow-500 text-white font-black py-4 px-6 rounded-xl hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed transition-all transform hover:scale-105 active:scale-95 text-lg"
             >
-              {loading ? t.loading : ctaButton}
+              {loading ? (
+                <span className="flex items-center justify-center gap-2">
+                  <span className="spinner"></span>
+                  {t.loadingText}
+                </span>
+              ) : (
+                t.roastButton
+              )}
             </button>
           </form>
 
-          {/* Error Message */}
+          {/* Error State */}
           {error && (
-            <div className="mt-4 p-4 bg-red-500/20 border border-red-500/50 rounded-xl text-red-100 animate-shake">
-              ❌ {error}
+            <div className="mt-4 p-4 bg-red-500/20 border border-red-400/50 rounded-xl backdrop-blur-sm animate-shake">
+              <p className="text-white text-center font-medium">{error}</p>
             </div>
           )}
 
-          {/* Roast Result */}
+          {/* Result Box */}
           {roast && (
-            <div className="mt-6 space-y-4 animate-fade-in">
-              <div className="p-6 bg-white/10 rounded-2xl border border-white/20">
-                <p className="text-lg leading-relaxed">{roast}</p>
-              </div>
-
-              {/* Action Buttons */}
-              <div className="grid grid-cols-2 gap-3">
-                <button
-                  onClick={handleCopy}
-                  className="px-4 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-semibold transition-all"
-                >
-                  {copied ? "✅ Copied!" : "📋 Copy"}
-                </button>
-                <button
-                  onClick={handleShare}
-                  className="px-4 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-semibold transition-all"
-                >
-                  🔗 Share
-                </button>
-                <button
-                  onClick={handleDownload}
-                  className="px-4 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-semibold transition-all"
-                >
-                  💾 Download
-                </button>
-                <button
-                  onClick={handleTryAgain}
-                  className="px-4 py-3 bg-white/10 hover:bg-white/20 rounded-xl font-semibold transition-all"
-                >
-                  🔄 Try Again
-                </button>
-              </div>
-
-              {/* Public/Story Checkboxes */}
-              <div className="space-y-3">
-                {enableVoting && (
-                  <label className="flex items-center gap-3 p-4 bg-white/10 rounded-xl cursor-pointer hover:bg-white/15 transition-all">
+            <div className="mt-6 space-y-4 animate-slide-up">
+              <div className="p-6 bg-gradient-to-br from-pink-500/20 to-purple-500/20 border-2 border-white/30 rounded-2xl backdrop-blur-sm">
+                <div className="flex items-start gap-3 mb-4">
+                  <div className="text-4xl animate-bounce">🔥</div>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-bold text-white mb-2">{t.yourRoast}</h3>
+                    <p className="text-white text-lg leading-relaxed">{roast}</p>
+                  </div>
+                </div>
+                
+                {/* Make Public Options */}
+                <div className="mb-4 space-y-3">
+                  <label className="flex items-start gap-3 cursor-pointer group">
                     <input
                       type="checkbox"
+                      id="makePublic"
                       checked={makePublic}
                       onChange={(e) => handleMakePublicChange(e.target.checked)}
                       disabled={submitting}
-                      className="w-5 h-5 rounded"
+                      className="mt-1 w-5 h-5 rounded border-2 border-white/50 bg-white/10 checked:bg-pink-500 focus:ring-2 focus:ring-pink-500 cursor-pointer disabled:opacity-50"
                     />
-                    <span className="font-semibold">🏆 Make Public (Leaderboard)</span>
+                    <div className="flex-1">
+                      <div className="font-semibold text-white group-hover:text-pink-200 transition-colors">
+                        🏆 {t.makePublic}
+                      </div>
+                      <div className="text-sm text-white/70">
+                        {t.makePublicHint}
+                      </div>
+                    </div>
                   </label>
-                )}
-                {enableStories && (
-                  <label className="flex items-center gap-3 p-4 bg-white/10 rounded-xl cursor-pointer hover:bg-white/15 transition-all">
+                  
+                  <label className="flex items-start gap-3 cursor-pointer group">
                     <input
                       type="checkbox"
+                      id="makeStory"
                       checked={makeStory}
                       onChange={(e) => handleMakeStoryChange(e.target.checked)}
                       disabled={submitting}
-                      className="w-5 h-5 rounded"
+                      className="mt-1 w-5 h-5 rounded border-2 border-white/50 bg-white/10 checked:bg-purple-500 focus:ring-2 focus:ring-purple-500 cursor-pointer disabled:opacity-50"
                     />
-                    <span className="font-semibold">📸 Share as 24h Story</span>
+                    <div className="flex-1">
+                      <div className="font-semibold text-white group-hover:text-purple-200 transition-colors">
+                        📸 Share as 24h Story
+                      </div>
+                      <div className="text-sm text-white/70">
+                        Disappears after 24 hours
+                      </div>
+                    </div>
                   </label>
-                )}
+                </div>
+                
+                {/* Action Buttons */}
+                <div className="grid grid-cols-2 gap-2">
+                  <button
+                    onClick={handleCopy}
+                    className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white px-4 py-3 rounded-xl transition-all font-semibold border border-white/30"
+                  >
+                    {copied ? "✓ " + t.copiedText : "📋 " + t.copyButton}
+                  </button>
+                  <button
+                    onClick={handleShare}
+                    className="bg-blue-500/80 hover:bg-blue-600/80 backdrop-blur-sm text-white px-4 py-3 rounded-xl transition-all font-semibold"
+                  >
+                    📤 {t.shareButton}
+                  </button>
+                  <button
+                    onClick={handleDownload}
+                    className="bg-green-500/80 hover:bg-green-600/80 backdrop-blur-sm text-white px-4 py-3 rounded-xl transition-all font-semibold"
+                  >
+                    💾 {t.downloadButton}
+                  </button>
+                  <button
+                    onClick={handleTryAgain}
+                    className="bg-purple-500/80 hover:bg-purple-600/80 backdrop-blur-sm text-white px-4 py-3 rounded-xl transition-all font-semibold"
+                  >
+                    🔄 {t.tryAgain}
+                  </button>
+                </div>
               </div>
             </div>
           )}
         </div>
+
+        {/* Roast History */}
+        {roastHistory.length > 0 && !roast && (
+          <div className="mt-6 bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-6 border border-white/20 animate-fade-in">
+            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+              <span>🕐</span> Recent Roasts
+            </h3>
+            <div className="space-y-3">
+              {roastHistory.slice(0, 3).map((item, index) => (
+                <div
+                  key={index}
+                  className="p-3 bg-white/10 backdrop-blur-sm rounded-xl text-sm text-white/90 hover:bg-white/20 transition-all cursor-pointer border border-white/20"
+                >
+                  "{item.roast}"
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* Footer */}
+        <footer className="text-center mt-8 text-white/70 text-sm animate-fade-in">
+          <p>{t.footer}</p>
+        </footer>
       </div>
     </div>
   );

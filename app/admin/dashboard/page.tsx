@@ -148,7 +148,7 @@ export default function AdminDashboard() {
       </div>
 
       {/* Content Management Links */}
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <Link
           href="/admin/roasts"
           className="bg-white/10 backdrop-blur-md rounded-2xl p-8 hover:bg-white/15 transition-all border-2 border-white/20 hover:border-white/40"
@@ -172,6 +172,31 @@ export default function AdminDashboard() {
           </h3>
           <p className="text-gray-400">
             View, moderate, and delete 24h stories
+          </p>
+        </Link>
+
+        <Link
+          href="/admin/settings"
+          className="bg-gradient-to-br from-pink-500/20 to-purple-500/20 backdrop-blur-md rounded-2xl p-8 hover:from-pink-500/30 hover:to-purple-500/30 transition-all border-2 border-pink-500/40 hover:border-pink-500/60"
+        >
+          <div className="text-4xl mb-4">⚙️</div>
+          <h3 className="text-2xl font-bold text-white mb-2">
+            Platform Settings
+          </h3>
+          <p className="text-gray-400">
+            Control all platform features without code
+          </p>
+        </Link>
+        <Link
+          href="/admin/analytics"
+          className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-md rounded-2xl p-8 hover:from-blue-500/30 hover:to-cyan-500/30 transition-all border-2 border-blue-500/40 hover:border-blue-500/60"
+        >
+          <div className="text-4xl mb-4">📊</div>
+          <h3 className="text-2xl font-bold text-white mb-2">
+            Analytics Dashboard
+          </h3>
+          <p className="text-gray-400">
+            Track platform usage and user behavior
           </p>
         </Link>
       </div>
