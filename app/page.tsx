@@ -422,7 +422,7 @@ export default function Home() {
 
             {/* Style Selector */}
             <div>
-              <label className="block text-sm font-semibold mb-2">{t.styleLabel}</label>
+              <label className="block text-sm font-semibold mb-2">{t.chooseStyle}</label>
               <div className="grid grid-cols-2 gap-2">
                 {activeRoastStyles.map((roastStyle: any) => {
                   const styleKey = typeof roastStyle === 'string' ? roastStyle : roastStyle.name;
