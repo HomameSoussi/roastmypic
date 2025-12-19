@@ -422,7 +422,7 @@ export default function Home() {
 
             {/* Style Selector */}
             <div>
-              <label className="block text-sm font-semibold mb-2">{t.styleLabel}</label>
+              <label className="block text-sm font-semibold mb-2">{t.chooseStyle}</label>
               <div className="grid grid-cols-2 gap-2">
                 {activeRoastStyles.map((roastStyle: any) => {
                   const styleKey = typeof roastStyle === 'string' ? roastStyle : roastStyle.name;
@@ -463,7 +463,7 @@ export default function Home() {
               className="w-full py-4 rounded-xl font-bold text-lg text-white transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
               style={{ backgroundColor: primaryColor }}
             >
-              {loading ? t.loading : ctaButton}
+              {loading ? t.loadingText : ctaButton}
             </button>
           </form>
 
