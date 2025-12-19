@@ -463,7 +463,7 @@ export default function Home() {
               className="w-full py-4 rounded-xl font-bold text-lg text-white transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none shadow-lg"
               style={{ backgroundColor: primaryColor }}
             >
-              {loading ? t.loading : ctaButton}
+              {loading ? t.loadingText : ctaButton}
             </button>
           </form>
 
