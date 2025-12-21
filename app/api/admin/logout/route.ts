@@ -1,22 +1,14 @@
 import { NextResponse } from 'next/server';
-import { deleteSession } from '@/lib/auth';
-import { cookies } from 'next/headers';
+import { clearAdminSession } from '@/lib/auth';
 
 export async function POST() {
   try {
-    const cookieStore = await cookies();
-    const sessionToken = cookieStore.get('admin_session')?.value;
-
-    if (sessionToken) {
-      await deleteSession(sessionToken);
-    }
-
-    // Clear cookie
-    cookieStore.delete('admin_session');
+    // Clear the admin session cookie (JWT)
+    await clearAdminSession();
 
     return NextResponse.json({
       success: true,
-      message: 'Logout successful',
+      message: 'Logged out successfully',
     });
   } catch (error) {
     console.error('Logout error:', error);

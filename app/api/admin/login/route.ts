@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { verifyCredentials, createSession } from '@/lib/auth';
-import { cookies } from 'next/headers';
+import { verifyCredentials, createSession, setAdminSession } from '@/lib/auth';
 
 export async function POST(request: NextRequest) {
   try {
@@ -14,7 +13,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verify credentials
+    // Verify credentials using bcrypt
     const isValid = await verifyCredentials(username, password);
 
     if (!isValid) {
@@ -24,22 +23,19 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create session
-    const sessionToken = await createSession(username);
+    // Create JWT session token
+    const jwtToken = await createSession(username);
 
-    // Set cookie
-    const cookieStore = await cookies();
-    cookieStore.set('admin_session', sessionToken, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'lax',
-      maxAge: 24 * 60 * 60, // 24 hours
-      path: '/',
-    });
+    // Set secure HTTP-only cookie with JWT
+    await setAdminSession(jwtToken);
 
     return NextResponse.json({
       success: true,
       message: 'Login successful',
+      user: {
+        username,
+        role: 'admin',
+      },
     });
   } catch (error) {
     console.error('Login error:', error);
